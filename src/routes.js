@@ -1,7 +1,7 @@
 const routes = {
   root: "/",
   kanban: "/kanban",
-  pomodero: "/pomodero",
+  pomodoro: "/pomodoro",
   news: "/news",
   favorite: "/favorite",
 };

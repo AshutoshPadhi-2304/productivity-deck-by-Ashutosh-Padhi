@@ -19,7 +19,7 @@ const Sidebar = () => (
       </Link>
     </div>
     <div>
-      <Link to="/pomodero">
+      <Link to="/pomodoro">
         <TimeTracking
           className="hover:neeto-ui-text-white cursor-pointer rounded-md p-0.5 hover:bg-gray-900"
           size={24}
