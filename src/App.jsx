@@ -1,3 +1,5 @@
+import Test from "components/Test";
+
 import "./App.css";
 // eslint-disable-next-line import/extensions
 import logo from "./logo.svg";
@@ -17,6 +19,7 @@ const App = () => (
       >
         Learn React
       </a>
+      <Test />
     </header>
   </div>
 );
