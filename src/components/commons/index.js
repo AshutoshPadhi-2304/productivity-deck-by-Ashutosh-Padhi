@@ -1,4 +1,5 @@
+import ModalComponent from "./ModalComponent";
 import PageNotFound from "./PageNotFound";
 import Sidebar from "./Sidebar";
 
-export { Sidebar, PageNotFound };
+export { ModalComponent, Sidebar, PageNotFound };

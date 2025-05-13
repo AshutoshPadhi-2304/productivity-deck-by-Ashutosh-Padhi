@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { ModalComponent } from "components/commons";
 import { Delete } from "neetoicons";
 import { Input, Button } from "neetoui";
 import useKanbanModeStore from "stores/useKanbanModeStore";
@@ -17,6 +18,7 @@ const Column = ({
 }) => {
   const { addNewTask, deleteTask } = useKanbanModeStore();
   const [newTask, setNewTask] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handleAddNewTask = () => {
     if (newTask.trim() === "") return;
@@ -67,7 +69,17 @@ const Column = ({
                 className="ml-auto bg-transparent text-black opacity-0 hover:bg-gray-800 hover:text-white group-hover:opacity-100"
                 icon={Delete}
                 style="tertiary"
-                onClick={() => handleRemoveTask(task.id)}
+                onClick={() => setShowModal(true)}
+              />
+              <ModalComponent
+                closeModal={() => setShowModal(false)}
+                confirmMessage="Delete"
+                isOpen={showModal}
+                label="Remove task"
+                confirmModal={() => {
+                  handleRemoveTask(task.id);
+                  setShowModal(false);
+                }}
               />
             </div>
             <DropArea onDrop={() => onDrop(columnId)} />
