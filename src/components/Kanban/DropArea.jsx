@@ -5,7 +5,7 @@ const DropArea = ({ onDrop }) => {
 
   return (
     <div
-      className={`mb-2 rounded-md border border-dashed border-gray-400  p-2 ${
+      className={`mb-2 w-full rounded-md border border-dashed border-gray-800 bg-gray-900 p-2 ${
         showDrop ? "opacity-100" : "opacity-0"
       }`}
       onDragEnter={() => setShowDrop(true)}
@@ -16,7 +16,7 @@ const DropArea = ({ onDrop }) => {
         setShowDrop(false);
       }}
     >
-      Drop Here
+      <hr />
     </div>
   );
 };
