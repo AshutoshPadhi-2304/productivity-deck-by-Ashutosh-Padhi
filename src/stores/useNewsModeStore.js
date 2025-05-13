@@ -1,4 +1,3 @@
-import { without } from "ramda";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -18,7 +17,11 @@ const useNewsModeStore = create(
             (favoriteArticle) => favoriteArticle.url === article.url
           );
           if (isFavorite) {
-            return { favorites: without([article], favorites) };
+            return {
+              favorites: favorites.filter(
+                (favoriteArticle) => favoriteArticle.url !== article.url
+              ),
+            };
           }
 
           return { favorites: [...favorites, { ...article, note: "" }] };
