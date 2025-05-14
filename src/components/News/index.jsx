@@ -48,10 +48,6 @@ const News = () => {
     }
   }, [articles, newsSource]);
 
-  const handleSearch = () => {
-    setCurrentPage(DEFAULT_PAGE_INDEX);
-  };
-
   const resetFilters = () => {
     setSearchKey("");
     setDateRange([]);
@@ -119,13 +115,9 @@ const News = () => {
             setShowPane(false);
           }}
         />
-        <SearchComponent
-          searchKey={searchKey}
-          setSearchKey={setSearchKey}
-          onSearch={handleSearch}
-        />
+        <SearchComponent searchKey={searchKey} setSearchKey={setSearchKey} />
       </div>
-      <div className="self-start rounded-md bg-black p-2 text-xl font-bold text-white">
+      <div className="flex items-center self-start rounded-md bg-black p-2 text-xl font-bold text-white">
         {totalResults}
         {totalResults === 0 && (
           <ResultsNotFound
@@ -135,12 +127,6 @@ const News = () => {
         )}
         {(searchKey !== "" || dateRange.length !== 0) && (
           <div>
-            <Button
-              className="ml-2"
-              label="Reset filters"
-              style="tertiary"
-              onClick={resetFilters}
-            />
             {searchKey !== "" && (
               <Button
                 icon={Close}
@@ -159,6 +145,12 @@ const News = () => {
                 onClick={() => setDateRange([])}
               />
             )}
+            <Button
+              className="ml-2"
+              label="Reset filters"
+              style="tertiary"
+              onClick={resetFilters}
+            />
           </div>
         )}
       </div>

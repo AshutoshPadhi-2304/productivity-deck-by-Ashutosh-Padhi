@@ -22,12 +22,12 @@ const PaneComponent = ({
       closePane();
       setDateRange(tempDateRange);
       setSearchKey(tempSearchKey);
-      setTempSearchKey("");
       setTempDateRange([]);
     } catch (error) {
       console.log("Error while searching at Pane component: ", error);
     } finally {
       setIsLoading(false);
+      setTempSearchKey("");
     }
   };
   if (isLoading) return <PageLoader />;
@@ -41,7 +41,10 @@ const PaneComponent = ({
           </Typography>
         </Pane.Header>
         <Pane.Body className="flex flex-col items-start justify-start">
-          <SearchComponent searchKey={searchKey} setSearchKey={setSearchKey} />
+          <SearchComponent
+            searchKey={tempSearchKey}
+            setSearchKey={setTempSearchKey}
+          />
           <div className="w-full">
             <DatePicker
               label="Date range"
