@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import axios from "axios";
+import newsApi from "apis/news";
 import { ModalComponent } from "components/commons";
 import SearchComponent from "components/commons/SearchComponent";
 import { NEWS_SOURCES } from "components/constants";
@@ -19,16 +19,16 @@ const News = () => {
   const { newsData, setNewsData, newsSource, setNewsSource } =
     useNewsModeStore();
   const [selectedSource, setSelectedSource] = useState(newsSource);
-  const [dateRange, setDateRange] = useState([]);
+  const [searchKey, setSearchKey] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const articlesPerPage = 3;
   const fetchNews = async () => {
     try {
-      await axios
-        .get(
-          `https://newsapi.org/v2/top-headlines?sources=${newsSource}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`
-        )
-        .then((res) => setNewsData(res.data.articles));
+      const response = await newsApi.fetch({
+        sources: newsSource,
+        apiKey: process.env.REACT_APP_NEWS_API_KEY,
+      });
+      setNewsData(response.data.articles);
     } catch (error) {
       console.log("Error at fetching news", error);
     }
@@ -44,7 +44,7 @@ const News = () => {
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center">
-      <div className="mb-28 flex items-center gap-x-4 self-start">
+      <div className=" flex items-center gap-x-4 self-start">
         <p className="mb-8 ml-12 mt-6 self-start text-4xl font-bold">
           News mode
         </p>
@@ -94,15 +94,16 @@ const News = () => {
         />
         <PaneComponent
           closePane={() => setShowPane(false)}
-          dateRange={dateRange}
           isOpen={showPane}
-          setDateRange={setDateRange}
           confirmPane={() => {
             setShowPane(false);
             fetchNews();
           }}
         />
-        <SearchComponent />
+        <SearchComponent searchKey={searchKey} setSearchKey={setSearchKey} />
+      </div>
+      <div className="self-start rounded-md bg-black p-2 text-xl font-bold text-white">
+        {newsData.length}
       </div>
       <ArticleList newsData={currentArticles} />
       <Pagination
