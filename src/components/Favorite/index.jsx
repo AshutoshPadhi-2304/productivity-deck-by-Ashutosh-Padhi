@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { ResultsNotFound } from "components/commons";
 import useNewsModeStore from "stores/useNewsModeStore";
 import Pagination from "utils/Pagination";
 
@@ -21,6 +22,9 @@ const Favorite = () => {
     <div className="flex min-h-screen w-full flex-col items-center">
       <h1 className="mb-28 ml-12 mt-6 self-start text-4xl font-bold">
         Favorite
+        {favoritesData.length === 0 && (
+          <ResultsNotFound label="You haven’t added any news to favorites yet." />
+        )}
       </h1>
       <ArticleList favoritesData={currentArticles} />
       <Pagination

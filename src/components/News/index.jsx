@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import newsApi from "apis/news";
-import { ModalComponent } from "components/commons";
+import {
+  ModalComponent,
+  PageLoader,
+  ResultsNotFound,
+} from "components/commons";
 import SearchComponent from "components/commons/SearchComponent";
 import { NEWS_SOURCES } from "components/constants";
 import { Filter, MenuHorizontal } from "neetoicons";
@@ -16,6 +20,7 @@ const News = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPane, setShowPane] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { newsData, setNewsData, newsSource, setNewsSource } =
     useNewsModeStore();
   const [selectedSource, setSelectedSource] = useState(newsSource);
@@ -31,12 +36,16 @@ const News = () => {
       setNewsData(response.data.articles);
     } catch (error) {
       console.log("Error at fetching news", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchNews();
   }, [newsSource]);
+
+  if (isLoading) return <PageLoader />;
 
   const lastArticleIndex = currentPage * articlesPerPage;
   const firstArticleIndex = lastArticleIndex - articlesPerPage;
@@ -104,6 +113,13 @@ const News = () => {
       </div>
       <div className="self-start rounded-md bg-black p-2 text-xl font-bold text-white">
         {newsData.length}
+        {newsData.length === 0 && (
+          <ResultsNotFound
+            fetchNews={fetchNews}
+            label="No results found. Please try adjusting your search terms or filters."
+            mode="News"
+          />
+        )}
       </div>
       <ArticleList newsData={currentArticles} />
       <Pagination
