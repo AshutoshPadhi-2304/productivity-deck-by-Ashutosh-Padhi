@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 
-import newsApi from "apis/news";
 import {
   ModalComponent,
   PageLoader,
   ResultsNotFound,
 } from "components/commons";
 import SearchComponent from "components/commons/SearchComponent";
-import { NEWS_SOURCES } from "components/constants";
-import { Filter, MenuHorizontal } from "neetoicons";
-import { Button, Dropdown, Select } from "neetoui";
+import {
+  DEFAULT_PAGE_INDEX,
+  DEFAULT_PAGE_SIZE,
+  NEWS_SOURCES,
+} from "components/constants";
+import { useFetchNews } from "hooks/reactQuery/useNewsApi";
+import { Close, Filter, MenuHorizontal } from "neetoicons";
+import { Button, Dropdown, Select, Pagination } from "neetoui";
 import useNewsModeStore from "stores/useNewsModeStore";
-import Pagination from "utils/Pagination";
 
 import ArticleList from "./ArticleList";
 import PaneComponent from "./PaneComponent";
@@ -20,36 +23,40 @@ const News = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPane, setShowPane] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const { newsData, setNewsData, newsSource, setNewsSource } =
-    useNewsModeStore();
+  const { setNewsData, newsSource, setNewsSource } = useNewsModeStore();
   const [selectedSource, setSelectedSource] = useState(newsSource);
   const [searchKey, setSearchKey] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 3;
-  const fetchNews = async () => {
-    try {
-      const response = await newsApi.fetch({
-        sources: newsSource,
-        apiKey: process.env.REACT_APP_NEWS_API_KEY,
-      });
-      setNewsData(response.data.articles);
-    } catch (error) {
-      console.log("Error at fetching news", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const [dateRange, setDateRange] = useState([]);
+  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE_INDEX);
+
+  const newsParams = {
+    sources: newsSource,
+    apiKey: process.env.REACT_APP_NEWS_API_KEY,
+    page: currentPage,
+    pageSize: DEFAULT_PAGE_SIZE,
+    from: dateRange[0]?.format("YYYY-MM-DD") || "",
+    to: dateRange[1]?.format("YYYY-MM-DD") || "",
+    q: searchKey || "",
   };
 
+  const { data: { articles = [], totalResults = 0 } = {}, isLoading } =
+    useFetchNews(newsParams);
+
   useEffect(() => {
-    fetchNews();
-  }, [newsSource]);
+    if (articles.length > 0) {
+      setNewsData(articles);
+    }
+  }, [articles, newsSource]);
 
+  const handleSearch = () => {
+    setCurrentPage(DEFAULT_PAGE_INDEX);
+  };
+
+  const resetFilters = () => {
+    setSearchKey("");
+    setDateRange([]);
+  };
   if (isLoading) return <PageLoader />;
-
-  const lastArticleIndex = currentPage * articlesPerPage;
-  const firstArticleIndex = lastArticleIndex - articlesPerPage;
-  const currentArticles = newsData.slice(firstArticleIndex, lastArticleIndex);
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center">
@@ -103,30 +110,64 @@ const News = () => {
         />
         <PaneComponent
           closePane={() => setShowPane(false)}
+          dateRange={dateRange}
           isOpen={showPane}
+          searchKey={searchKey}
+          setDateRange={setDateRange}
+          setSearchKey={setSearchKey}
           confirmPane={() => {
             setShowPane(false);
-            fetchNews();
           }}
         />
-        <SearchComponent searchKey={searchKey} setSearchKey={setSearchKey} />
+        <SearchComponent
+          searchKey={searchKey}
+          setSearchKey={setSearchKey}
+          onSearch={handleSearch}
+        />
       </div>
       <div className="self-start rounded-md bg-black p-2 text-xl font-bold text-white">
-        {newsData.length}
-        {newsData.length === 0 && (
+        {totalResults}
+        {totalResults === 0 && (
           <ResultsNotFound
-            fetchNews={fetchNews}
             label="No results found. Please try adjusting your search terms or filters."
-            mode="News"
+            resetFilters={resetFilters}
           />
         )}
+        {(searchKey !== "" || dateRange.length !== 0) && (
+          <div>
+            <Button
+              className="ml-2"
+              label="Reset filters"
+              style="tertiary"
+              onClick={resetFilters}
+            />
+            {searchKey !== "" && (
+              <Button
+                icon={Close}
+                label={searchKey}
+                style="tertiary"
+                onClick={() => setSearchKey("")}
+              />
+            )}
+            {dateRange.length !== 0 && (
+              <Button
+                icon={Close}
+                style="tertiary"
+                label={`${dateRange[0]?.format(
+                  "YYYY-MM-DD"
+                )} - ${dateRange[1]?.format("YYYY-MM-DD")}`}
+                onClick={() => setDateRange([])}
+              />
+            )}
+          </div>
+        )}
       </div>
-      <ArticleList newsData={currentArticles} />
+      <ArticleList newsData={articles} />
       <Pagination
-        articlesPerPage={articlesPerPage}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalArticles={newsData.length}
+        count={totalResults}
+        navigate={(page) => setCurrentPage(page)}
+        pageNo={currentPage || DEFAULT_PAGE_INDEX}
+        pageSize={DEFAULT_PAGE_SIZE}
       />
     </div>
   );

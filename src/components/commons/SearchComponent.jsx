@@ -1,30 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
-import newsApi from "apis/news";
 import { Search } from "neetoicons";
 import { Input } from "neetoui";
-import useNewsModeStore from "stores/useNewsModeStore";
+
+import PageLoader from "./PageLoader";
 
 export const SearchComponent = ({ searchKey, setSearchKey }) => {
-  const { setNewsData, newsSource } = useNewsModeStore();
-  const fetchNews = async () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [tempSearchKey, setTempSearchKey] = useState(searchKey);
+  const handleSearch = async () => {
     try {
-      const response = await newsApi.fetch({
-        q: searchKey,
-        sources: newsSource,
-        apiKey: process.env.REACT_APP_NEWS_API_KEY,
-      });
-
-      setNewsData(response.data.articles);
+      setIsLoading(true);
+      setSearchKey(tempSearchKey);
+      setTempSearchKey("");
     } catch (error) {
-      console.log("Error at fetching news", error);
+      console.log("Error at Search", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleSearch = () => {
-    fetchNews();
-    setSearchKey("");
-  };
+  if (isLoading) return <PageLoader />;
 
   return (
     <div>
@@ -32,8 +28,8 @@ export const SearchComponent = ({ searchKey, setSearchKey }) => {
         placeholder="Search articles"
         prefix={<Search />}
         type="search"
-        value={searchKey}
-        onChange={(event) => setSearchKey(event.target.value)}
+        value={tempSearchKey}
+        onChange={(event) => setTempSearchKey(event.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSearch()}
       />
     </div>

@@ -1,28 +1,36 @@
 import React, { useState } from "react";
 
-import newsApi from "apis/news";
+import { PageLoader } from "components/commons";
 import { SearchComponent } from "components/commons/SearchComponent";
 import { Typography, Pane, DatePicker, Button } from "neetoui";
-import useNewsModeStore from "stores/useNewsModeStore";
 
-const PaneComponent = ({ isOpen, closePane }) => {
-  const [dateRange, setDateRange] = useState([]);
-  const [searchKey, setSearchKey] = useState("");
-  const newsSource = useNewsModeStore((store) => store.newsSource);
-  const setNewsData = useNewsModeStore((store) => store.setNewsData);
+const PaneComponent = ({
+  isOpen,
+  closePane,
+  dateRange,
+  setDateRange,
+  setSearchKey,
+  searchKey,
+}) => {
+  const [tempDateRange, setTempDateRange] = useState(dateRange);
+  const [tempSearchKey, setTempSearchKey] = useState(searchKey);
 
-  const fetchNews = async () => {
-    const [startDate, endDate] = dateRange;
-
-    const response = await newsApi.fetch({
-      q: searchKey,
-      sources: newsSource,
-      apiKey: process.env.REACT_APP_NEWS_API_KEY,
-      from: startDate.format("YYYY-MM-DD"),
-      to: endDate.format("YYYY-MM-DD"),
-    });
-    setNewsData(response.data.articles);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleSave = () => {
+    try {
+      setIsLoading(true);
+      closePane();
+      setDateRange(tempDateRange);
+      setSearchKey(tempSearchKey);
+      setTempSearchKey("");
+      setTempDateRange([]);
+    } catch (error) {
+      console.log("Error while searching at Pane component: ", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  if (isLoading) return <PageLoader />;
 
   return (
     <div>
@@ -38,8 +46,8 @@ const PaneComponent = ({ isOpen, closePane }) => {
             <DatePicker
               label="Date range"
               type="range"
-              value={dateRange}
-              onChange={setDateRange}
+              value={tempDateRange}
+              onChange={setTempDateRange}
             />
           </div>
         </Pane.Body>
@@ -48,12 +56,7 @@ const PaneComponent = ({ isOpen, closePane }) => {
             className="hover:bg-black hover:text-white"
             label="Save"
             style="tertiary"
-            onClick={() => {
-              fetchNews();
-              closePane();
-              setSearchKey("");
-              setDateRange([]);
-            }}
+            onClick={handleSave}
           />
           <Button
             className="hover:bg-black hover:text-white"

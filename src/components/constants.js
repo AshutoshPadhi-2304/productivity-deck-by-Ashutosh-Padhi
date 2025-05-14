@@ -5,6 +5,14 @@ const TIMER_MODES = [
 ];
 const KANBAN_COLUMN_IDS = ["todo", "inProgress", "done"];
 
+const DEFAULT_PAGE_SIZE = 3;
+
+const DEFAULT_PAGE_INDEX = 1;
+
+const QUERY_KEYS = {
+  NEWS: "news",
+};
+
 const NEWS_SOURCES = [
   {
     value: "abc-news",
@@ -48,4 +56,11 @@ const NEWS_SOURCES = [
   },
 ];
 
-export { TIMER_MODES, KANBAN_COLUMN_IDS, NEWS_SOURCES };
+export {
+  TIMER_MODES,
+  KANBAN_COLUMN_IDS,
+  NEWS_SOURCES,
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_PAGE_INDEX,
+  QUERY_KEYS,
+};
