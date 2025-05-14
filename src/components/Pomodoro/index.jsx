@@ -7,6 +7,7 @@ const Pomodoro = () => {
   const [activeMode, setActiveMode] = useState(TIMER_MODES[0].name);
   const [activeTimer, setActiveTimer] = useState(TIMER_MODES[0].duration);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [sessionNumber, setSessionNumber] = useState(1);
 
   const handleIsTimerRunning = () => {
     setIsTimerRunning((prevStartTimer) => !prevStartTimer);
@@ -28,12 +29,26 @@ const Pomodoro = () => {
           if (prevTime <= 0) {
             clearInterval(interval);
             setIsTimerRunning(false);
+            const isPomodoro = activeMode === "Pomodoro";
+            const longBreakMode = (sessionNumber + 1) % 4 === 0;
+            const nextMode = isPomodoro
+              ? longBreakMode
+                ? "Long Break"
+                : "Short Break"
+              : "Pomodoro";
+            setActiveMode(nextMode);
+            setSessionNumber(isPomodoro ? sessionNumber : sessionNumber + 1);
             setActiveTimer(
-              TIMER_MODES.filter((mode) => mode.name === activeMode)[0].duration
+              TIMER_MODES.filter((mode) => mode.name === nextMode)[0].duration
             );
+
+            setTimeout(() => {
+              setIsTimerRunning(true);
+            }, 1000);
 
             return 0;
           }
+          console.log(activeMode, isTimerRunning, sessionNumber);
 
           return prevTime - 1;
         }),
