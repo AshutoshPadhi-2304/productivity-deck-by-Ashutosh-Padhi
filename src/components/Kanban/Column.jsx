@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
 import { ModalComponent } from "components/commons";
-import { Delete } from "neetoicons";
-import { Input, Button } from "neetoui";
+import { Delete, Plus } from "neetoicons";
+import { Input, Button, Typography } from "neetoui";
+import { isEmpty, isNil } from "ramda";
+import { useTranslation } from "react-i18next";
 import useKanbanModeStore from "stores/useKanbanModeStore";
 
 import DropArea from "./DropArea";
@@ -15,10 +17,15 @@ const Column = ({
   setActiveInputColumn,
   onDrop,
   setDragTask,
+  dragTask,
 }) => {
   const { addNewTask, deleteTask } = useKanbanModeStore();
+
   const [newTask, setNewTask] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [taskId, setTaskId] = useState(null);
+
+  const { t } = useTranslation();
 
   const handleAddNewTask = () => {
     if (newTask.trim() === "") return;
@@ -37,68 +44,90 @@ const Column = ({
       prev === columnId ? handleAddNewTask() : columnId
     );
   };
+  console.log(dragTask);
 
   return (
     <div className="flex w-1/3 flex-col items-center justify-center rounded-lg border border-gray-900 p-4">
       <DropArea onDrop={() => onDrop(columnId)}>
-        <h2 className="mb-4 ml-4 self-start text-xl font-bold">{label}</h2>
+        <Typography
+          className="mb-4 ml-4 self-start text-xl"
+          style="h2"
+          weight="bold"
+        >
+          {t(`kanban.columns.${label}`)}
+        </Typography>
         <div className="flex h-full w-full flex-col items-center">
-          {tasks.map((task) => (
-            <div
-              draggable
-              className="active:opacity-0.8 group mb-2 flex w-full items-center rounded-md border border-gray-800 p-1"
-              key={task.id}
-              onDragEnd={() => {
-                setActiveInputColumn(null);
-                setDragTask(null);
-              }}
-              onDragStart={() => {
-                setActiveInputColumn(columnId);
-                setDragTask(task);
-              }}
-            >
-              <span
-                className={`ml-2 text-black ${
-                  columnId === "done" ? "line-through" : ""
-                }`}
-              >
-                {task.content}
-              </span>
-              <Button
-                className="ml-auto bg-transparent text-black opacity-0 hover:bg-gray-800 hover:text-white group-hover:opacity-100"
-                icon={Delete}
-                style="tertiary"
-                onClick={() => setShowModal(true)}
-              />
-              <ModalComponent
-                closeModal={() => setShowModal(false)}
-                confirmMessage="Delete"
-                isOpen={showModal}
-                label="Remove task"
-                confirmModal={() => {
-                  handleRemoveTask(task.id);
-                  setShowModal(false);
+          {isEmpty(tasks) ? (
+            <Typography className="text-black" style="h3" weight="bold">
+              {t("kanban.empty")}
+            </Typography>
+          ) : (
+            tasks.map((task) => (
+              <div
+                draggable
+                className="active:opacity-0.8 group mb-2 flex w-full items-center rounded-md border border-gray-800 p-1"
+                key={task.id}
+                onDragEnd={() => {
+                  setActiveInputColumn(null);
+                  setDragTask(null);
                 }}
-              />
-            </div>
-          ))}
-          {activeInputColumn === columnId && (
+                onDragStart={() => {
+                  setActiveInputColumn(columnId);
+                  setDragTask(task);
+                }}
+              >
+                <Typography
+                  className="ml-2 text-black"
+                  component={columnId === "done" ? "del" : "span"}
+                >
+                  {task.content}
+                </Typography>
+                <Button
+                  className="ml-auto bg-transparent text-black opacity-0 hover:bg-gray-800 hover:text-white group-hover:opacity-100"
+                  icon={Delete}
+                  style="tertiary"
+                  onClick={() => {
+                    setShowModal(true);
+                    setTaskId(task.id);
+                  }}
+                />
+                <ModalComponent
+                  confirmMessage={t("kanban.modal.delete")}
+                  isOpen={showModal}
+                  label={t("kanban.removeTask")}
+                  closeModal={() => {
+                    setShowModal(false);
+                    setTaskId(null);
+                  }}
+                  confirmModal={() => {
+                    handleRemoveTask(taskId);
+                    setShowModal(false);
+                  }}
+                />
+              </div>
+            ))
+          )}
+          {activeInputColumn === columnId && isNil(dragTask) && (
             <div className="mb-2 flex w-full items-center rounded-md p-1">
               <Input
                 autoFocus
-                placeholder="Enter task"
+                placeholder={t("kanban.enterTask")}
                 type="text"
                 value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleAddNewTask()}
+                onChange={(event) => setNewTask(event.target.value)}
+                onKeyDown={(event) =>
+                  event.key === "Enter" && handleAddNewTask()
+                }
               />
             </div>
           )}
         </div>
       </DropArea>
       <Button
-        className="bg-transparent text-black hover:bg-gray-400 "
-        label="Add new task +"
+        className="bg-transparent text-black hover:bg-gray-400"
+        icon={Plus}
+        iconPosition="right"
+        label={t("kanban.addTask")}
         style="tertiary"
         onClick={handleAddNewTaskButtonClick}
       />

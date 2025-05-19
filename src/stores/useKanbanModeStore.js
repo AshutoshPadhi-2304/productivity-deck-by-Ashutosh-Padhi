@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -13,7 +14,7 @@ const useKanbanModeStore = create(
       addNewTask: (columnId, taskContent) => {
         set((state) => {
           const newTask = {
-            id: Date.now().toString(),
+            id: dayjs(),
             content: taskContent,
           };
 
