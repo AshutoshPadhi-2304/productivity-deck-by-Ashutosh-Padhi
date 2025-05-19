@@ -1,0 +1,34 @@
+{
+  "articleCount_one": "({{count}} article)",
+  "articleCount_other": "({{count}} articles)",
+  "title": "Productivity Deck",
+  "pageTitle": "{{title}} | Productivity Deck",
+  "modes": {
+    "news": "News mode",
+    "pomodoro": "Pomodoro mode",
+    "favorite": "Favorite mode",
+    "kanban": "Kanban mode"
+  },
+  "news": {
+    "title": "News"
+  },
+  "pomodoro": {
+    "title": "Pomodoro",
+    "modes": {
+      "pomodoro": "Pomodoro",
+      "shortBreak": "Short Break",
+      "longBreak": "Long Break"
+    },
+    "start": "Start",
+    "pause": "Pause"
+  },
+  "favorite": {
+    "title": "Favorite"
+  },
+  "kanban": {
+    "title": "Kanban"
+  },
+  "error": {},
+  "order": {},
+  "validations": {}
+}

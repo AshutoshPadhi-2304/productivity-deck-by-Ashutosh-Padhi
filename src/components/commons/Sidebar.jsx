@@ -1,17 +1,11 @@
 import React from "react";
 
-import { Favorite, List, TimeTracking, NeetoKb, Globe } from "neetoicons";
+import { NAV_LINKS } from "components/constants";
+import { NeetoKb } from "neetoicons";
 import { useLocation, Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const location = useLocation();
-  const currentPath = location.pathname;
-  const navLinks = [
-    { to: "/kanban", icon: List },
-    { to: "/pomodoro", icon: TimeTracking },
-    { to: "/news", icon: Globe },
-    { to: "/favorite", icon: Favorite },
-  ];
+  const currentPath = useLocation().pathname;
 
   return (
     <nav className="flex h-screen w-16 flex-col items-center space-y-6 border-r-2 border-gray-200 py-4">
@@ -20,7 +14,7 @@ const Sidebar = () => {
           <NeetoKb className="cursor-pointer" size={24} />
         </Link>
       </div>
-      {navLinks.map(({ to, icon: Icon }) => (
+      {NAV_LINKS.map(({ to, icon: Icon }) => (
         <div key={to}>
           <Link to={to}>
             <Icon

@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 
+import classNames from "classnames";
 import { TIMER_MODES } from "components/constants";
-import { Button } from "neetoui";
+import i18n from "i18next";
+import { Button, Typography } from "neetoui";
+import { useTranslation } from "react-i18next";
+import withTitle from "utils/withTitle";
 
 const Pomodoro = () => {
   const [activeMode, setActiveMode] = useState(TIMER_MODES[0].name);
   const [activeTimer, setActiveTimer] = useState(TIMER_MODES[0].duration);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [sessionNumber, setSessionNumber] = useState(1);
+
+  const { t } = useTranslation();
 
   const handleIsTimerRunning = () => {
     setIsTimerRunning((prevStartTimer) => !prevStartTimer);
@@ -29,13 +35,13 @@ const Pomodoro = () => {
           if (prevTime <= 0) {
             clearInterval(interval);
             setIsTimerRunning(false);
-            const isPomodoro = activeMode === "Pomodoro";
+            const isPomodoro = activeMode === "pomodoro";
             const longBreakMode = (sessionNumber + 1) % 4 === 0;
             const nextMode = isPomodoro
               ? longBreakMode
-                ? "Long Break"
-                : "Short Break"
-              : "Pomodoro";
+                ? "longBreak"
+                : "shortBreak"
+              : "pomodoro";
             setActiveMode(nextMode);
             setSessionNumber(isPomodoro ? sessionNumber : sessionNumber + 1);
             setActiveTimer(
@@ -50,7 +56,7 @@ const Pomodoro = () => {
           }
           console.log(activeMode, isTimerRunning, sessionNumber);
 
-          return prevTime - 1;
+          return prevTime - 100;
         }),
       1000
     );
@@ -63,26 +69,28 @@ const Pomodoro = () => {
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center">
-      <h1 className="mb-28 ml-12 mt-6 self-start text-4xl font-bold">
-        Pomodoro mode
-      </h1>
+      <Typography
+        className="mb-28 ml-12 mt-6 self-start text-4xl"
+        style="h1"
+        weight="bold"
+      >
+        {t("modes.pomodoro")}
+      </Typography>
       <div className="w-auto rounded-md border-2 border-gray-500 p-8 text-center">
         <div className="mb-6 flex justify-center gap-4">
-          {TIMER_MODES.map((mode) => (
+          {TIMER_MODES.map(({ id, duration, name }) => (
             <Button
-              key={mode.id}
-              label={mode.name}
+              key={id}
+              label={t(`pomodoro.modes.${name}`)}
               size="medium"
               style="tertiary"
-              className={`bg-transparent ${
-                activeMode === mode.name
-                  ? "bg-gray-800 font-bold text-white"
-                  : ""
-              }`}
+              className={classNames("bg-transparent", {
+                "bg-gray-800 font-bold text-white": activeMode === name,
+              })}
               onClick={() => {
-                setActiveTimer(mode.duration);
+                setActiveTimer(duration);
                 setIsTimerRunning(false);
-                setActiveMode(mode.name);
+                setActiveMode(name);
               }}
             />
           ))}
@@ -91,11 +99,12 @@ const Pomodoro = () => {
           {formatTime(activeTimer || 0)}
         </div>
         <Button
-          label={isTimerRunning ? "Pause" : "Start"}
+          label={isTimerRunning ? t("pomodoro.pause") : t("pomodoro.start")}
           style="tertiary"
-          className={`rounded-md bg-transparent p-2 text-2xl font-bold hover:bg-gray-700 hover:text-white ${
-            isTimerRunning ? "bg-gray-900 text-white" : ""
-          }`}
+          className={classNames(
+            "rounded-md bg-transparent p-2 text-2xl font-bold hover:bg-gray-700 hover:text-white",
+            { "bg-gray-900 text-white": isTimerRunning }
+          )}
           onClick={handleIsTimerRunning}
         />
       </div>
@@ -103,4 +112,4 @@ const Pomodoro = () => {
   );
 };
 
-export default Pomodoro;
+export default withTitle(Pomodoro, i18n.t("pomodoro.title"));

@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const fetch = async (params) => {
-  const response = await axios.get("everything", { params });
-  console.log("Rsponse from news.js", response.data);
+  const news = await axios.get("everything", { params });
 
-  return response.data;
+  return news;
 };
 
 const newsApi = { fetch };

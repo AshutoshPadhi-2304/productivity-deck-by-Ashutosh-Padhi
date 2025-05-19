@@ -1,7 +1,13 @@
+import { Favorite, List, TimeTracking, Globe } from "neetoicons";
+import routes from "routes";
+
+const API_BASE_URL = "https://newsapi.org/v2/";
+const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
+
 const TIMER_MODES = [
-  { id: 1, name: "Pomodoro", duration: 25 * 60 },
-  { id: 2, name: "Short Break", duration: 5 * 60 },
-  { id: 3, name: "Long Break", duration: 15 * 60 },
+  { id: 1, name: "pomodoro", duration: 25 * 60 },
+  { id: 2, name: "shortBreak", duration: 5 * 60 },
+  { id: 3, name: "longBreak", duration: 15 * 60 },
 ];
 const KANBAN_COLUMN_IDS = ["todo", "inProgress", "done"];
 
@@ -12,6 +18,13 @@ const DEFAULT_PAGE_INDEX = 1;
 const QUERY_KEYS = {
   NEWS: "news",
 };
+
+const NAV_LINKS = [
+  { to: routes.kanban, icon: List },
+  { to: routes.pomodoro, icon: TimeTracking },
+  { to: routes.news, icon: Globe },
+  { to: routes.favorite, icon: Favorite },
+];
 
 const NEWS_SOURCES = [
   {
@@ -63,4 +76,7 @@ export {
   DEFAULT_PAGE_SIZE,
   DEFAULT_PAGE_INDEX,
   QUERY_KEYS,
+  NAV_LINKS,
+  API_BASE_URL,
+  API_KEY,
 };

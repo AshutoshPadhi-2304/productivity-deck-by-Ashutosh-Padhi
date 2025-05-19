@@ -22,7 +22,6 @@ import PaneComponent from "./PaneComponent";
 const News = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPane, setShowPane] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
   const { setNewsData, newsSource, setNewsSource } = useNewsModeStore();
   const [selectedSource, setSelectedSource] = useState(newsSource);
   const [searchKey, setSearchKey] = useState("");
@@ -31,7 +30,6 @@ const News = () => {
 
   const newsParams = {
     sources: newsSource,
-    apiKey: process.env.REACT_APP_NEWS_API_KEY,
     page: currentPage,
     pageSize: DEFAULT_PAGE_SIZE,
     from: dateRange[0]?.format("YYYY-MM-DD") || "",
@@ -60,15 +58,7 @@ const News = () => {
         <p className="mb-8 ml-12 mt-6 self-start text-4xl font-bold">
           News mode
         </p>
-        <Dropdown
-          buttonStyle="tertiary"
-          icon={MenuHorizontal}
-          onClose={() => setShowDropdown(false)}
-          onClickOutside={() => {
-            setShowDropdown(false);
-            console.log(showDropdown);
-          }}
-        >
+        <Dropdown buttonStyle="tertiary" icon={MenuHorizontal}>
           <Dropdown.Menu>
             <Dropdown.MenuItem onClick={() => setShowModal(true)}>
               Change news source
