@@ -5,8 +5,8 @@ import Card from "./Card";
 const ArticleList = ({ favoritesData }) => (
   <div>
     {favoritesData
-      ? favoritesData.map((favorite) => (
-          <Card key={favorite.url} title={favorite.title} url={favorite.url} />
+      ? favoritesData.map(({ url, title }) => (
+          <Card key={url} {...{ title, url }} />
         ))
       : null}
   </div>

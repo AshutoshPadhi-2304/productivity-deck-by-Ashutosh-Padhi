@@ -30,7 +30,7 @@
     },
     "modal": {
       "delete": "Delete",
-      "removeFromFavorite": "Remove from Favorite"
+      "removeFromFavorite": "Remove from favorite"
     },
     "addNote": "Add a note"
   },

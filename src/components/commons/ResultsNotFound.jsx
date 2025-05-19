@@ -2,7 +2,7 @@ import { NoData } from "neetoui";
 import { Link } from "react-router-dom";
 
 const ResultsNotFound = ({ label, resetFilters }) => (
-  <div className="absolute left-1/3 max-w-full p-10">
+  <div className="mb-20 mr-10">
     <Link to="/news">
       <NoData
         title={label}
