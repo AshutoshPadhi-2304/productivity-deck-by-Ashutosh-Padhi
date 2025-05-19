@@ -3,13 +3,16 @@ import React, { useState } from "react";
 import { ModalComponent } from "components/commons";
 import { MenuHorizontal } from "neetoicons";
 import { Dropdown, Textarea, Typography } from "neetoui";
+import { useTranslation } from "react-i18next";
 import useNewsModeStore from "stores/useNewsModeStore";
 
 const Card = ({ title, url }) => {
   const { toggleFavorite, favorites, setFavoriteNote } = useNewsModeStore();
-  const [showDropdown, setShowDropdown] = useState(false);
+
   const [showModal, setShowModal] = useState(false);
   const [note, setNote] = useState("");
+
+  const { t } = useTranslation();
 
   const favoriteArticle = favorites.find((article) => article.url === url);
 
@@ -22,26 +25,18 @@ const Card = ({ title, url }) => {
               {title}
             </a>
           </Typography>
-          <Dropdown
-            buttonStyle="tertiary"
-            icon={MenuHorizontal}
-            onClose={() => setShowDropdown(false)}
-            onClickOutside={() => {
-              setShowDropdown(false);
-              console.log(showDropdown);
-            }}
-          >
+          <Dropdown buttonStyle="tertiary" icon={MenuHorizontal}>
             <Dropdown.Menu>
               <Dropdown.MenuItem onClick={() => setShowModal(true)}>
-                Remove
+                {t("favorite.dropdown.remove")}
               </Dropdown.MenuItem>
             </Dropdown.Menu>
           </Dropdown>
           <ModalComponent
             closeModal={() => setShowModal(false)}
-            confirmMessage="Delete"
+            confirmMessage={t("favorite.modal.delete")}
             isOpen={showModal}
-            label="Remove from favorite"
+            label={t("favorite.modal.removeFromFavorite")}
             confirmModal={() => {
               toggleFavorite(favoriteArticle);
               setShowModal(false);
@@ -49,12 +44,12 @@ const Card = ({ title, url }) => {
           />
         </div>
         <Textarea
-          placeholder="Add a note"
+          placeholder={t("favorite.addNote")}
           size="small"
           value={favoriteArticle?.note || note}
-          onChange={(e) => {
-            setNote(e.target.value);
-            setFavoriteNote(url, e.target.value);
+          onChange={(event) => {
+            setNote(event.target.value);
+            setFavoriteNote(url, event.target.value);
           }}
         />
       </div>

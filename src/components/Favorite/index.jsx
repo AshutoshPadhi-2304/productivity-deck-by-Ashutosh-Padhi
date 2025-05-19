@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 
 import { ResultsNotFound } from "components/commons";
+import i18n from "i18next";
+import { Typography } from "neetoui";
+import { useTranslation } from "react-i18next";
 import useNewsModeStore from "stores/useNewsModeStore";
 import Pagination from "utils/Pagination";
+import withTitle from "utils/withTitle";
 
 import ArticleList from "./ArticleList";
 
 const Favorite = () => {
   const favoritesData = useNewsModeStore((store) => store.favorites);
+
   const [currentPage, setCurrentPage] = useState(1);
+
+  const { t } = useTranslation();
+
   const articlesPerPage = 3;
 
   const lastArticleIndex = currentPage * articlesPerPage;
@@ -20,12 +28,16 @@ const Favorite = () => {
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center">
-      <h1 className="mb-28 ml-12 mt-6 self-start text-4xl font-bold">
-        Favorite
+      <Typography
+        className="mb-28 ml-12 mt-6 self-start text-4xl"
+        style="h1"
+        weight="bold"
+      >
+        {t("modes.favorite")}
         {favoritesData.length === 0 && (
-          <ResultsNotFound label="You haven’t added any news to favorites yet." />
+          <ResultsNotFound label={t("favorite.noFavorites")} />
         )}
-      </h1>
+      </Typography>
       <ArticleList favoritesData={currentArticles} />
       <Pagination
         articlesPerPage={articlesPerPage}
@@ -37,4 +49,4 @@ const Favorite = () => {
   );
 };
 
-export default Favorite;
+export default withTitle(Favorite, i18n.t("favorite.title"));

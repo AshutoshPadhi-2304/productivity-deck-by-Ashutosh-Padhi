@@ -54,7 +54,6 @@ const Pomodoro = () => {
 
             return 0;
           }
-          console.log(activeMode, isTimerRunning, sessionNumber);
 
           return prevTime - 1;
         }),

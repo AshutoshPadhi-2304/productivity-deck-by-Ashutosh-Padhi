@@ -23,7 +23,16 @@
     "pause": "Pause"
   },
   "favorite": {
-    "title": "Favorite"
+    "title": "Favorite",
+    "noFavorites": "There are no favorites to show.",
+    "dropdown": {
+      "remove": "Remove"
+    },
+    "modal": {
+      "delete": "Delete",
+      "removeFromFavorite": "Remove from Favorite"
+    },
+    "addNote": "Add a note"
   },
   "kanban": {
     "title": "Kanban",

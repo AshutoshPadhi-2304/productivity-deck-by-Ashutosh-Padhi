@@ -44,7 +44,6 @@ const Column = ({
       prev === columnId ? handleAddNewTask() : columnId
     );
   };
-  console.log(dragTask);
 
   return (
     <div className="flex w-1/3 flex-col items-center justify-center rounded-lg border border-gray-900 p-4">
@@ -58,7 +57,7 @@ const Column = ({
         </Typography>
         <div className="flex h-full w-full flex-col items-center">
           {isEmpty(tasks) ? (
-            <Typography className="text-black" style="h3" weight="bold">
+            <Typography className="text-black" style="h4" weight="bold">
               {t("kanban.empty")}
             </Typography>
           ) : (
