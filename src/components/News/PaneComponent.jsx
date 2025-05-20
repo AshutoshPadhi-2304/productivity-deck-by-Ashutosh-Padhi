@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { PageLoader } from "components/commons";
 import { SearchComponent } from "components/commons/SearchComponent";
-import { Typography, Pane, DatePicker, Button } from "neetoui";
+import { Typography, Pane, DatePicker, Button, Toastr } from "neetoui";
 import { useTranslation } from "react-i18next";
 
 const PaneComponent = ({
@@ -28,7 +28,9 @@ const PaneComponent = ({
       setDateRange(tempDateRange);
       handleSearch();
     } catch (error) {
-      console.log("Error while searching at Pane component: ", error);
+      Toastr.error(t("error.genericError", { error }), {
+        autoClose: 2000,
+      });
     } finally {
       setIsLoading(false);
       setTempDateRange([]);

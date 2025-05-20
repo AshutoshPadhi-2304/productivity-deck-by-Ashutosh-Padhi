@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Search } from "neetoicons";
-import { Input } from "neetoui";
+import { Input, Toastr } from "neetoui";
 import { useTranslation } from "react-i18next";
 
 import PageLoader from "./PageLoader";
@@ -22,7 +22,9 @@ export const SearchComponent = ({
       setIsLoading(true);
       setSearchKey(tempSearchKey);
     } catch (error) {
-      console.log("Error at Search", error);
+      Toastr.error(t("error.genericError", { error }), {
+        autoClose: 2000,
+      });
     } finally {
       setTempSearchKey("");
       setIsLoading(false);

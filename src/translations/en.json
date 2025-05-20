@@ -72,6 +72,7 @@
     "removeFromFavorite": "Remove from favorites",
     "cancel": "Cancel"
   },
-  "error": {},
-  "validations": {}
+  "error": {
+    "genericError": "An error occurred: {{error}}"
+  }
 }
