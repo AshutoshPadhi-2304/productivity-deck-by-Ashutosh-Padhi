@@ -1,7 +1,8 @@
+import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "constants/query";
+
 import React, { useState } from "react";
 
 import { ResultsNotFound } from "components/commons";
-import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "components/constants";
 import i18n from "i18next";
 import { Typography } from "neetoui";
 import { isEmpty } from "ramda";

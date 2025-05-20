@@ -1,3 +1,6 @@
+import { NEWS_SOURCES } from "constants/news";
+import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "constants/query";
+
 import React, { useState } from "react";
 
 import {
@@ -6,11 +9,6 @@ import {
   ResultsNotFound,
 } from "components/commons";
 import SearchComponent from "components/commons/SearchComponent";
-import {
-  DEFAULT_PAGE_INDEX,
-  DEFAULT_PAGE_SIZE,
-  NEWS_SOURCES,
-} from "components/constants";
 import dayjs from "dayjs";
 import { useFetchNews } from "hooks/reactQuery/useNewsApi";
 import i18n from "i18next";

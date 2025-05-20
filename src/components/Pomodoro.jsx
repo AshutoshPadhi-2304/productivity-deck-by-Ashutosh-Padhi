@@ -1,7 +1,8 @@
+import { TIMER_MODES } from "constants/pomodoro";
+
 import React, { useState, useEffect } from "react";
 
 import classNames from "classnames";
-import { TIMER_MODES } from "components/constants";
 import i18n from "i18next";
 import { Button, Typography } from "neetoui";
 import { useTranslation } from "react-i18next";

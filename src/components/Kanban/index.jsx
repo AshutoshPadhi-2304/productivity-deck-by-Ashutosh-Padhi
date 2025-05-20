@@ -1,6 +1,7 @@
+import { KANBAN_COLUMN_IDS } from "constants/kanban";
+
 import React, { useState } from "react";
 
-import { KANBAN_COLUMN_IDS } from "components/constants";
 import Column from "components/Kanban/Column";
 import i18n from "i18next";
 import { Typography } from "neetoui";

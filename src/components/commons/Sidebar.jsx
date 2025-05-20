@@ -1,7 +1,8 @@
+import { NAV_LINKS } from "constants/constants";
+
 import React from "react";
 
 import classNames from "classnames";
-import { NAV_LINKS } from "components/constants";
 import { NeetoKb } from "neetoicons";
 import { useLocation, Link } from "react-router-dom";
 import routes from "routes";

@@ -1,5 +1,6 @@
+import { QUERY_KEYS } from "constants/query";
+
 import newsApi from "apis/news";
-import { QUERY_KEYS } from "components/constants";
 import { useQuery } from "react-query";
 
 export const useFetchNews = (params) =>

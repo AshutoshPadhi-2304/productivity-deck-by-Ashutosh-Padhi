@@ -1,0 +1,9 @@
+const DEFAULT_PAGE_SIZE = 3;
+
+const DEFAULT_PAGE_INDEX = 1;
+
+const QUERY_KEYS = {
+  NEWS: "news",
+};
+
+export { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE, QUERY_KEYS };
