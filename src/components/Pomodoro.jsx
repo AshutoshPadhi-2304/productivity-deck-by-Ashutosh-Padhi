@@ -6,7 +6,6 @@ import classNames from "classnames";
 import i18n from "i18next";
 import { Button, Typography, Toastr } from "neetoui";
 import { useTranslation } from "react-i18next";
-import { ToastContainer } from "react-toastify";
 import withTitle from "utils/withTitle";
 
 const Pomodoro = () => {
@@ -66,7 +65,7 @@ const Pomodoro = () => {
             return 0;
           }
 
-          return prevTime - 1;
+          return prevTime - 100;
         }),
       1000
     );
@@ -127,7 +126,6 @@ const Pomodoro = () => {
           }
           onClick={handleIsTimerRunning}
         />
-        <ToastContainer />
       </div>
     </div>
   );

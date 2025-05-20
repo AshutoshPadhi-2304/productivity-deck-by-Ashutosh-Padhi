@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 const NEWS_SOURCES = [
   {
     value: "abc-news",
@@ -41,4 +43,6 @@ const NEWS_SOURCES = [
   },
 ];
 
-export { NEWS_SOURCES };
+const TODAY = dayjs();
+
+export { NEWS_SOURCES, TODAY };

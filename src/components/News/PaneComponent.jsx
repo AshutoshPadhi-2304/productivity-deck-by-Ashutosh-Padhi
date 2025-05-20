@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import { TODAY } from "constants/news";
+
+import React, { useEffect, useState } from "react";
 
 import { PageLoader } from "components/commons";
 import { SearchComponent } from "components/commons/SearchComponent";
+import dayjs from "dayjs";
 import { Typography, Pane, DatePicker, Button, Toastr } from "neetoui";
+import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
-import { ToastContainer } from "react-toastify";
 
 const PaneComponent = ({
   isOpen,
@@ -17,8 +20,24 @@ const PaneComponent = ({
   const [tempDateRange, setTempDateRange] = useState(dateRange);
   const [isLoading, setIsLoading] = useState(false);
   const [triggerSearch, setTriggerSearch] = useState(false);
+  const [inRange, setInRange] = useState(false);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (!isEmpty(tempDateRange)) {
+      const isInvalidDate = dayjs(tempDateRange[1]).isAfter(
+        dayjs(TODAY),
+        "day"
+      );
+      setInRange(isInvalidDate);
+      if (isInvalidDate) {
+        Toastr.error(t("error.invalidDateRange"), { autoClose: 2000 });
+      }
+    } else {
+      setInRange(false);
+    }
+  }, [tempDateRange]);
 
   const handleSearch = () => setTriggerSearch(true);
 
@@ -64,6 +83,7 @@ const PaneComponent = ({
         <Pane.Footer>
           <Button
             className="hover:bg-black hover:text-white"
+            disabled={!!inRange}
             label={t("modal.save")}
             style="tertiary"
             onClick={handleSave}
@@ -80,7 +100,6 @@ const PaneComponent = ({
           />
         </Pane.Footer>
       </Pane>
-      <ToastContainer />
     </div>
   );
 };

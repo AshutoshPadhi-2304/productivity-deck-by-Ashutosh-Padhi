@@ -76,6 +76,7 @@
     "deleteMessage": "The {{item}} will be permanently deleted. This can't be undone."
   },
   "error": {
-    "genericError": "An error occurred: {{error}}"
+    "genericError": "An error occurred: {{error}}",
+    "invalidDateRange": "Please choose an end date that is not in the future."
   }
 }
