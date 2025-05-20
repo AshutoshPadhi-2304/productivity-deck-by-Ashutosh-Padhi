@@ -1,55 +1,77 @@
 {
-  "articleCount_one": "({{count}} article)",
-  "articleCount_other": "({{count}} articles)",
-  "title": "Productivity Deck",
-  "pageTitle": "{{title}} | Productivity Deck",
-  "modes": {
-    "news": "News mode",
-    "pomodoro": "Pomodoro mode",
-    "favorite": "Favorite mode",
-    "kanban": "Kanban mode"
+  "title": {
+    "app": "Productivity Deck",
+    "page": "{{title}} | Productivity Deck",
+    "news": "News",
+    "pomodoro": "Pomodoro",
+    "favorite": "Favorite",
+    "kanban": "Kanban",
+    "resultsNotFound": "No results found. Please try adjusting your search terms or filters.",
+    "pageNotFound": "The page you're looking for can't be found"
   },
-  "news": {
-    "title": "News"
-  },
-  "pomodoro": {
-    "title": "Pomodoro",
+  "label": {
     "modes": {
-      "pomodoro": "Pomodoro",
-      "shortBreak": "Short Break",
-      "longBreak": "Long Break"
+      "news": "News mode",
+      "pomodoro": "Pomodoro mode",
+      "favorite": "Favorite mode",
+      "kanban": "Kanban mode"
     },
-    "start": "Start",
-    "pause": "Pause"
+    "news": {
+      "changeSource": "Change news source",
+      "source": "News source",
+      "sourceList": "News source list",
+      "filters": "Filters",
+      "resetFilters": "Reset filters",
+      "altNews": "news"
+    },
+    "pomodoro": {
+      "modes": {
+        "pomodoro": "Pomodoro",
+        "shortBreak": "Short Break",
+        "longBreak": "Long Break"
+      },
+      "start": "Start",
+      "pause": "Pause"
+    },
+    "favorite": {
+      "noItems": "There are no favorites to show.",
+      "add": "Add to favorites",
+      "remove": "Remove from favorites"
+    },
+    "kanban": {
+      "columns": {
+        "todo": "To-do",
+        "inProgress": "In progress",
+        "done": "Done"
+      },
+      "removeTask": "Remove task",
+      "addTask": "Add new task",
+      "empty": "Empty column"
+    },
+    "resultsNotFound": "Search {{label}}",
+    "pageNotFound": "Back to kanban board",
+    "dateRange": "Date Range"
   },
-  "favorite": {
-    "title": "Favorite",
-    "noFavorites": "There are no favorites to show.",
-    "dropdown": {
-      "remove": "Remove"
-    },
-    "modal": {
-      "delete": "Delete",
-      "removeFromFavorite": "Remove from favorite"
-    },
-    "addNote": "Add a note"
+  "message": {
+    "articleCount_one": "({{count}} result for)",
+    "articleCount_other": "({{count}} results for)"
   },
-  "kanban": {
-    "title": "Kanban",
-    "columns": {
-      "todo": "To-do",
-      "inProgress": "In progress",
-      "done": "Done"
+  "placeholder": {
+    "favorite": {
+      "note": "Add a note"
     },
-    "removeTask": "Remove task",
+    "news": {
+      "selectNewsSource": "Select news source"
+    },
     "enterTask": "Enter task",
-    "addTask": "Add new task",
-    "modal": {
-      "delete": "Delete"
-    },
-    "empty": "Empty"
+    "search": "Search {{label}}"
+  },
+  "modal": {
+    "save": "Save",
+    "delete": "Delete",
+    "removeFromFavorite": "Remove from favorites",
+    "cancel": "Cancel"
   },
   "error": {},
-  "order": {},
   "validations": {}
 }

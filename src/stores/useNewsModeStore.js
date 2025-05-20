@@ -4,12 +4,14 @@ import { persist, createJSONStorage } from "zustand/middleware";
 const useNewsModeStore = create(
   persist(
     (set) => ({
-      newsData: [],
       newsSource: "bbc-news",
       favorites: [],
+      searchKey: "",
+      dateRange: [],
 
       setNewsSource: (newsSource) => set({ newsSource }),
-      setNewsData: (newsData) => set({ newsData }),
+      setSearchKey: (searchKey) => set({ searchKey }),
+      setDateRange: (dateRange) => set({ dateRange }),
 
       toggleFavorite: (article) =>
         set(({ favorites }) => {

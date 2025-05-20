@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { PageLoader } from "components/commons";
 import { SearchComponent } from "components/commons/SearchComponent";
 import { Typography, Pane, DatePicker, Button } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 const PaneComponent = ({
   isOpen,
@@ -13,21 +14,24 @@ const PaneComponent = ({
   searchKey,
 }) => {
   const [tempDateRange, setTempDateRange] = useState(dateRange);
-  const [tempSearchKey, setTempSearchKey] = useState(searchKey);
-
   const [isLoading, setIsLoading] = useState(false);
+  const [triggerSearch, setTriggerSearch] = useState(false);
+
+  const { t } = useTranslation();
+
+  const handleSearch = () => setTriggerSearch(true);
+
   const handleSave = () => {
     try {
       setIsLoading(true);
       closePane();
       setDateRange(tempDateRange);
-      setSearchKey(tempSearchKey);
-      setTempDateRange([]);
+      handleSearch();
     } catch (error) {
       console.log("Error while searching at Pane component: ", error);
     } finally {
       setIsLoading(false);
-      setTempSearchKey("");
+      setTempDateRange([]);
     }
   };
   if (isLoading) return <PageLoader />;
@@ -37,17 +41,17 @@ const PaneComponent = ({
       <Pane isOpen={isOpen} onClose={closePane}>
         <Pane.Header>
           <Typography className="font-bold" style="h2">
-            Filters
+            {t("label.news.filters")}
           </Typography>
         </Pane.Header>
         <Pane.Body className="flex flex-col items-start justify-start">
           <SearchComponent
-            searchKey={tempSearchKey}
-            setSearchKey={setTempSearchKey}
+            {...{ searchKey, setSearchKey, triggerSearch, setTriggerSearch }}
+            triggerOnEnterKey={false}
           />
-          <div className="w-full">
+          <div className="mt-4 w-full">
             <DatePicker
-              label="Date range"
+              label={t("label.dateRange")}
               type="range"
               value={tempDateRange}
               onChange={setTempDateRange}
@@ -57,13 +61,13 @@ const PaneComponent = ({
         <Pane.Footer>
           <Button
             className="hover:bg-black hover:text-white"
-            label="Save"
+            label={t("modal.save")}
             style="tertiary"
             onClick={handleSave}
           />
           <Button
             className="hover:bg-black hover:text-white"
-            label="Cancel"
+            label={t("modal.cancel")}
             style="tertiary"
             onClick={() => {
               closePane();

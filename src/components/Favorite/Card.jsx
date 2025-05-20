@@ -17,9 +17,9 @@ const Card = ({ title, url }) => {
   const favoriteArticle = favorites.find((article) => article.url === url);
 
   return (
-    <div className="ml-1  mr-1 flex w-full max-w-7xl border-b-2 p-8">
-      <div className="flex-1 pr-4">
-        <div className="flex items-start justify-between">
+    <div className="w-full max-w-7xl border-b-2 p-8">
+      <div className="flex flex-col justify-between gap-6">
+        <div className="flex items-start justify-start">
           <Typography className="text-md font-semibold" style="h2">
             <a href={url} rel="noreferrer" target="_blank">
               {title}
@@ -28,15 +28,15 @@ const Card = ({ title, url }) => {
           <Dropdown buttonStyle="tertiary" icon={MenuHorizontal}>
             <Dropdown.Menu>
               <Dropdown.MenuItem onClick={() => setShowModal(true)}>
-                {t("favorite.dropdown.remove")}
+                {t("label.favorite.remove")}
               </Dropdown.MenuItem>
             </Dropdown.Menu>
           </Dropdown>
           <ModalComponent
             closeModal={() => setShowModal(false)}
-            confirmMessage={t("favorite.modal.delete")}
+            confirmMessage={t("modal.delete")}
             isOpen={showModal}
-            label={t("favorite.modal.removeFromFavorite")}
+            label={t("modal.removeFromFavorite")}
             confirmModal={() => {
               toggleFavorite(favoriteArticle);
               setShowModal(false);
@@ -44,7 +44,7 @@ const Card = ({ title, url }) => {
           />
         </div>
         <Textarea
-          placeholder={t("favorite.addNote")}
+          placeholder={t("placeholder.favorite.note")}
           size="small"
           value={favoriteArticle?.note || note}
           onChange={(event) => {

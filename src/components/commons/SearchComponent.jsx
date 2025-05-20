@@ -1,36 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Search } from "neetoicons";
 import { Input } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 import PageLoader from "./PageLoader";
 
-export const SearchComponent = ({ searchKey, setSearchKey }) => {
+export const SearchComponent = ({
+  setSearchKey,
+  triggerOnEnterKey = true,
+  triggerSearch,
+  setTriggerSearch,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [tempSearchKey, setTempSearchKey] = useState(searchKey);
+  const [tempSearchKey, setTempSearchKey] = useState("");
+
+  const { t } = useTranslation();
+
   const handleSearch = async () => {
     try {
       setIsLoading(true);
       setSearchKey(tempSearchKey);
-      setTempSearchKey("");
     } catch (error) {
       console.log("Error at Search", error);
     } finally {
+      setTempSearchKey("");
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (triggerSearch) {
+      handleSearch();
+      setTriggerSearch(false);
+    }
+  }, [triggerSearch, setTriggerSearch]);
 
   if (isLoading) return <PageLoader />;
 
   return (
     <div>
       <Input
-        placeholder="Search articles"
+        placeholder={t("placeholder.search", { label: "articles" })}
         prefix={<Search />}
         type="search"
         value={tempSearchKey}
         onChange={(event) => setTempSearchKey(event.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+        onKeyDown={(event) =>
+          triggerOnEnterKey && event.key === "Enter" && handleSearch()
+        }
       />
     </div>
   );

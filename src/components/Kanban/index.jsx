@@ -30,7 +30,7 @@ const Kanban = () => {
         style="h1"
         weight="bold"
       >
-        {t("modes.kanban")}
+        {t("label.modes.kanban")}
       </Typography>
       <div
         className="flex w-full flex-row justify-between gap-12 px-12"
@@ -56,4 +56,4 @@ const Kanban = () => {
   );
 };
 
-export default withTitle(Kanban, i18n.t("kanban.title"));
+export default withTitle(Kanban, i18n.t("title.kanban"));

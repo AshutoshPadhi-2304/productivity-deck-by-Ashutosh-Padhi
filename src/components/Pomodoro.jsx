@@ -73,14 +73,14 @@ const Pomodoro = () => {
         style="h1"
         weight="bold"
       >
-        {t("modes.pomodoro")}
+        {t("label.modes.pomodoro")}
       </Typography>
       <div className="w-auto rounded-md border-2 border-gray-500 p-8 text-center">
         <div className="mb-6 flex justify-center gap-4">
           {TIMER_MODES.map(({ id, duration, name }) => (
             <Button
               key={id}
-              label={t(`pomodoro.modes.${name}`)}
+              label={t(`label.pomodoro.modes.${name}`)}
               size="medium"
               style="tertiary"
               className={classNames("bg-transparent", {
@@ -98,12 +98,16 @@ const Pomodoro = () => {
           {formatTime(activeTimer || 0)}
         </div>
         <Button
-          label={isTimerRunning ? t("pomodoro.pause") : t("pomodoro.start")}
           style="tertiary"
           className={classNames(
             "rounded-md bg-transparent p-2 text-2xl font-bold hover:bg-gray-700 hover:text-white",
             { "bg-gray-900 text-white": isTimerRunning }
           )}
+          label={
+            isTimerRunning
+              ? t("label.pomodoro.pause")
+              : t("label.pomodoro.start")
+          }
           onClick={handleIsTimerRunning}
         />
       </div>
@@ -111,4 +115,4 @@ const Pomodoro = () => {
   );
 };
 
-export default withTitle(Pomodoro, i18n.t("pomodoro.title"));
+export default withTitle(Pomodoro, i18n.t("title.pomodoro"));

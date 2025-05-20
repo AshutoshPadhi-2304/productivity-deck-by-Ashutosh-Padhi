@@ -35,11 +35,11 @@ const Favorite = () => {
         style="h1"
         weight="bold"
       >
-        {t("modes.favorite")}
+        {t("label.modes.favorite")}
       </Typography>
       {isEmpty(favoritesData) ? (
         <div className="flex h-full w-full items-center justify-center">
-          <ResultsNotFound label={t("favorite.noFavorites")} />
+          <ResultsNotFound label={t("label.favorite.noItems")} />
         </div>
       ) : (
         <>
@@ -56,4 +56,4 @@ const Favorite = () => {
   );
 };
 
-export default withTitle(Favorite, i18n.t("favorite.title"));
+export default withTitle(Favorite, i18n.t("title.favorite"));

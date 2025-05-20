@@ -53,12 +53,12 @@ const Column = ({
           style="h2"
           weight="bold"
         >
-          {t(`kanban.columns.${label}`)}
+          {t(`label.kanban.columns.${label}`)}
         </Typography>
         <div className="flex h-full w-full flex-col items-center">
           {isEmpty(tasks) ? (
             <Typography className="text-black" style="h4" weight="bold">
-              {t("kanban.empty")}
+              {t("label.kanban.empty")}
             </Typography>
           ) : (
             tasks.map((task) => (
@@ -85,15 +85,18 @@ const Column = ({
                   className="ml-auto bg-transparent text-black opacity-0 hover:bg-gray-800 hover:text-white group-hover:opacity-100"
                   icon={Delete}
                   style="tertiary"
+                  tooltipProps={{
+                    content: t("modal.delete"),
+                  }}
                   onClick={() => {
                     setShowModal(true);
                     setTaskId(task.id);
                   }}
                 />
                 <ModalComponent
-                  confirmMessage={t("kanban.modal.delete")}
+                  confirmMessage={t("modal.delete")}
                   isOpen={showModal}
-                  label={t("kanban.removeTask")}
+                  label={t("label.kanban.removeTask")}
                   closeModal={() => {
                     setShowModal(false);
                     setTaskId(null);
@@ -110,7 +113,7 @@ const Column = ({
             <div className="mb-2 flex w-full items-center rounded-md p-1">
               <Input
                 autoFocus
-                placeholder={t("kanban.enterTask")}
+                placeholder={t("placeholder.enterTask")}
                 type="text"
                 value={newTask}
                 onChange={(event) => setNewTask(event.target.value)}
@@ -126,7 +129,7 @@ const Column = ({
         className="bg-transparent text-black hover:bg-gray-400"
         icon={Plus}
         iconPosition="right"
-        label={t("kanban.addTask")}
+        label={t("label.kanban.addTask")}
         style="tertiary"
         onClick={handleAddNewTaskButtonClick}
       />

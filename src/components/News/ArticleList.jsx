@@ -1,21 +1,22 @@
 import React from "react";
 
+import dayjs from "dayjs";
+
 import Card from "./Card";
 
 const ArticleList = ({ newsData }) => (
   <div>
     {newsData
-      ? newsData.map((article) => (
-          <Card
-            author={article.author}
-            date={new Date(article.publishedAt).toLocaleDateString("en-GB")}
-            description={article.description}
-            imageUrl={article.urlToImage}
-            key={article.url}
-            title={article.title}
-            url={article.url}
-          />
-        ))
+      ? newsData.map(
+          ({ author, publishedAt, description, urlToImage, url, title }) => (
+            <Card
+              date={dayjs(publishedAt).format("DD/MM/YYYY")}
+              imageUrl={urlToImage}
+              key={url}
+              {...{ author, description, title, url }}
+            />
+          )
+        )
       : null}
   </div>
 );
