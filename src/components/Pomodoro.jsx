@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 
 import classNames from "classnames";
 import i18n from "i18next";
-import { Button, Typography } from "neetoui";
+import { Button, Typography, Toastr } from "neetoui";
 import { useTranslation } from "react-i18next";
+import { ToastContainer } from "react-toastify";
 import withTitle from "utils/withTitle";
 
 const Pomodoro = () => {
@@ -43,6 +44,15 @@ const Pomodoro = () => {
                 ? "longBreak"
                 : "shortBreak"
               : "pomodoro";
+
+            Toastr.info(
+              t("message.sessionEnd", {
+                session: t(`label.pomodoro.modes.${activeMode}`),
+              }),
+              {
+                autoClose: 2000,
+              }
+            );
             setActiveMode(nextMode);
             setSessionNumber(isPomodoro ? sessionNumber : sessionNumber + 1);
             setActiveTimer(
@@ -56,7 +66,7 @@ const Pomodoro = () => {
             return 0;
           }
 
-          return prevTime - 1;
+          return prevTime - 100;
         }),
       1000
     );
@@ -87,6 +97,12 @@ const Pomodoro = () => {
               className={classNames("bg-transparent", {
                 "bg-gray-800 font-bold text-white": activeMode === name,
               })}
+              tooltipProps={{
+                content: t("label.pomodoro.changeMode", {
+                  mode: t(`label.pomodoro.modes.${name}`),
+                }),
+                position: "top",
+              }}
               onClick={() => {
                 setActiveTimer(duration);
                 setIsTimerRunning(false);
@@ -111,6 +127,7 @@ const Pomodoro = () => {
           }
           onClick={handleIsTimerRunning}
         />
+        <ToastContainer />
       </div>
     </div>
   );

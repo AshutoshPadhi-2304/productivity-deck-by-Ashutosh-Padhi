@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Search } from "neetoicons";
 import { Input, Toastr } from "neetoui";
 import { useTranslation } from "react-i18next";
+import { ToastContainer } from "react-toastify";
 
 import PageLoader from "./PageLoader";
 
@@ -52,6 +53,7 @@ export const SearchComponent = ({
           triggerOnEnterKey && event.key === "Enter" && handleSearch()
         }
       />
+      <ToastContainer />
     </div>
   );
 };

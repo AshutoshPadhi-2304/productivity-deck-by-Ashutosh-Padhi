@@ -31,7 +31,8 @@
         "longBreak": "Long Break"
       },
       "start": "Start",
-      "pause": "Pause"
+      "pause": "Pause",
+      "changeMode": "Change mode to {{mode}}"
     },
     "favorite": {
       "noItems": "There are no favorites to show.",
@@ -54,7 +55,8 @@
   },
   "message": {
     "articleCount_one": "({{count}} result for)",
-    "articleCount_other": "({{count}} results for)"
+    "articleCount_other": "({{count}} results for)",
+    "sessionEnd": "{{session}} session ended"
   },
   "placeholder": {
     "favorite": {

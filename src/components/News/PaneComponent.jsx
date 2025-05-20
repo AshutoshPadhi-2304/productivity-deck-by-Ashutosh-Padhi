@@ -4,6 +4,7 @@ import { PageLoader } from "components/commons";
 import { SearchComponent } from "components/commons/SearchComponent";
 import { Typography, Pane, DatePicker, Button, Toastr } from "neetoui";
 import { useTranslation } from "react-i18next";
+import { ToastContainer } from "react-toastify";
 
 const PaneComponent = ({
   isOpen,
@@ -79,6 +80,7 @@ const PaneComponent = ({
           />
         </Pane.Footer>
       </Pane>
+      <ToastContainer />
     </div>
   );
 };
