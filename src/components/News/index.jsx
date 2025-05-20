@@ -46,6 +46,7 @@ const News = () => {
     from: dateRange[0] ? dayjs(dateRange[0]).format("YYYY-MM-DD") : "",
     to: dateRange[1] ? dayjs(dateRange[1]).format("YYYY-MM-DD") : "",
     q: searchKey || "",
+    sortBy: !isEmpty(dateRange) ? "popularity" : "",
   };
 
   const { data: { articles = [], totalResults = 0 } = {}, isLoading } =
