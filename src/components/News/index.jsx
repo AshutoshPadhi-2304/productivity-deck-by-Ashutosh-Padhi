@@ -94,6 +94,10 @@ const News = () => {
         <Button
           icon={Filter}
           style="tertiary"
+          tooltipProps={{
+            content: "Open pane",
+            position: "bottom",
+          }}
           onClick={() => {
             setShowPane(true);
           }}
