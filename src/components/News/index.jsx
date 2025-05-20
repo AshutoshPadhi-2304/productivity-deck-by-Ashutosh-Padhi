@@ -1,7 +1,7 @@
 import { NEWS_SOURCES } from "constants/news";
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "constants/query";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   ModalComponent,
@@ -13,7 +13,15 @@ import dayjs from "dayjs";
 import { useFetchNews } from "hooks/reactQuery/useNewsApi";
 import i18n from "i18next";
 import { Filter, MenuHorizontal } from "neetoicons";
-import { Button, Dropdown, Select, Pagination, Typography, Tag } from "neetoui";
+import {
+  Button,
+  Dropdown,
+  Select,
+  Pagination,
+  Typography,
+  Tag,
+  Toastr,
+} from "neetoui";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import useNewsModeStore from "stores/useNewsModeStore";
@@ -49,8 +57,19 @@ const News = () => {
     sortBy: !isEmpty(dateRange) ? "popularity" : "",
   };
 
-  const { data: { articles = [], totalResults = 0 } = {}, isLoading } =
-    useFetchNews(newsParams);
+  const {
+    data: { articles = [], totalResults = 0 } = {},
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useFetchNews(newsParams);
+
+  useEffect(() => {
+    if (isError) {
+      Toastr.error(t("error.genericError", { error }), { autoClose: 2000 });
+    }
+  }, [isError]);
 
   const resetFilters = () => {
     setSearchKey("");
@@ -161,7 +180,7 @@ const News = () => {
         <div className="mt-56">
           <ResultsNotFound
             label={t("title.resultsNotFound")}
-            {...{ resetFilters }}
+            {...{ resetFilters, refetch }}
           />
         </div>
       )}

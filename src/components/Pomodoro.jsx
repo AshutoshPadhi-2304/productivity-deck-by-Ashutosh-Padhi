@@ -65,7 +65,7 @@ const Pomodoro = () => {
             return 0;
           }
 
-          return prevTime - 100;
+          return prevTime - 1;
         }),
       1000
     );
