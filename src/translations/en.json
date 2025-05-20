@@ -70,7 +70,8 @@
     "save": "Save",
     "delete": "Delete",
     "removeFromFavorite": "Remove from favorites",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "deleteMessage": "The {{item}} will be permanently deleted. This can't be undone."
   },
   "error": {
     "genericError": "An error occurred: {{error}}"

@@ -35,6 +35,7 @@ const Card = ({ title, url }) => {
           <ModalComponent
             closeModal={() => setShowModal(false)}
             confirmMessage={t("modal.delete")}
+            description={t("modal.deleteMessage", { item: "note" })}
             isOpen={showModal}
             label={t("modal.removeFromFavorite")}
             confirmModal={() => {

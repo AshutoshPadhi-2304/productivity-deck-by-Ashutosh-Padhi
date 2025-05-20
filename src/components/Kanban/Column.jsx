@@ -95,6 +95,7 @@ const Column = ({
                 />
                 <ModalComponent
                   confirmMessage={t("modal.delete")}
+                  description={t("modal.deleteMessage", { item: "task" })}
                   isOpen={showModal}
                   label={t("label.kanban.removeTask")}
                   closeModal={() => {

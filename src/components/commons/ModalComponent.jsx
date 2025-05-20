@@ -10,6 +10,7 @@ const ModalComponent = ({
   confirmModal,
   isOpen,
   confirmMessage,
+  description,
 }) => {
   const { t } = useTranslation();
 
@@ -17,11 +18,16 @@ const ModalComponent = ({
     <div>
       <Modal isOpen={isOpen} onClose={closeModal}>
         <Modal.Header>
-          <Typography className="font-bold" style="h1">
+          <Typography style="h1" weight="bold">
             {label}
           </Typography>
         </Modal.Header>
-        <Modal.Body className="space-y-2 text-black">{children}</Modal.Body>
+        <Modal.Body className="space-y-2 text-black">
+          <Typography className="mb-4 mt-4" style="body2" weight="semibold">
+            {description}
+          </Typography>
+          {children}
+        </Modal.Body>
         <Modal.Footer className="space-x-2">
           <Button
             label={t("modal.cancel")}

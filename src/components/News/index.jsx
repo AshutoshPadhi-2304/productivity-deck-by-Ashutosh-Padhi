@@ -73,7 +73,6 @@ const News = () => {
         <ModalComponent
           closeModal={() => setShowModal(false)}
           confirmMessage={t("modal.save")}
-          description={t("label.news.source")}
           isOpen={showModal}
           label={t("label.news.changeSource")}
           confirmModal={() => {
